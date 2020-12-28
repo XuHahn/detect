@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet"  href="../static/css/bootstrap.css">
+    <title>目标检测</title>
+    <style type="text/css">
+        .欢迎来到GZCC目标检测中心 {
+            color: #F00;
+        }
+                   /*选择图片*/
+                    #preview,#preview2{
+                        width: 400px;
+                        height: 400px;
+                        overflow: hidden;
+                        margin:0 auto;
+                    }
+            
+                    #preview img {
+                        width: 100%;
+                        height: 100%;
+                    }
+        button {
+            color: #000040;
+        }
+        </style>
+        <script src="../static/js/jquery.min.js"></script>
+        <script type="text/javascript">
+            window.URL = window.URL || window.webkitURL;
+
+            // 图片预览
+            function preview1(file) {
+                var img = new Image(), url = img.src = window.URL.createObjectURL(file);
+                var $img = $(img);
+                img.onload = function () {
+                    window.URL.revokeObjectURL(url);
+                    $('#preview').empty().append($img)
+                }
+            }
+            function preview2(file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var $img = $('<img>').attr("src", e.target.result);
+                    $('#preview').empty().append($img)
+                };
+                reader.readAsDataURL(file)
+            }
+
+            $(function () {
+                $('[type=file]').change(function (e) {
+                    var file = e.target.files[0];
+                    preview1(file);
+                })
+            });
+        </script>
+</head>
+<body>
+    <div class="row" style="width: 100%;">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">
+			<img  style="vertical-align:middle;" src="../static/images/zhuti.jpg" width=100% height="150" >
+			<h1 align="center" class="欢迎来到GZCC目标检测中心">欢迎来到GZCC目标检测中心</h1>
+    		<h1></h1>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+    <form action="http://192.168.74.1:5000/upload" enctype='multipart/form-data' method='POST'>
+        <!-- <input type="file" name="file" style="margin-top:20px;"/> -->
+        <!-- <input type="submit" value="上传" class="button-new" style="margin-top:15px;"/> -->
+        <div class=" row" style="width: 100%;">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+            <!--<input type="file"  name="imageUpload" onchange="upload(event);"/>-->
+            
+            <input type="file" name="file" accept="image/jpeg, image/png, image/jpg"/>
+                <p></p>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" >
+                <div class="col-md-1" ></div>
+                    <div id="preview" style="border:1px solid gray;" class="col-md-5">
+                        <div align="center" ><img src=" ./static/images/{{upload_path }}" width="400" height="400" alt="not found"/></div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div id="preview2" style="border:1px solid gray;" class="col-md-5">
+                        <div align="center" ><img src="../static/images/{{ save_path }}" width="400" height="400" alt="not found"/></div>
+                    </div>
+                <div class="col-md-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                            <p> </p>
+                    <!-- <button type="button" onclick="setBase64()"><strong>确认检测</strong></button> -->
+                    <input type="submit" value="确认检测" id="upFileBtn">
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+</html>
